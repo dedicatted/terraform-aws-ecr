@@ -24,7 +24,7 @@ variable "create_ecr_repository_private" {
 variable "create_ecr_repository_public" {
   description = "Whether to create the ECR repository"
   type        = bool
-  default     = false
+  default     = true
 }
 variable "allowed_account_ids" {
   description = "List of AWS account IDs allowed to perform actions"

@@ -11,7 +11,7 @@ func TestBilling(t *testing.T) {
 	// retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// Set the path to the Terraform code that will be tested.
-		TerraformDir: "../terraform-aws-ecr/ECR,
+		TerraformDir: "../terraform-aws-ecr,
 	})
 
 	// Run "terraform init" and "terraform apply". Fail the test if there are any errors.

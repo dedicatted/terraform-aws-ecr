@@ -1,10 +1,10 @@
 ## Usage
 
-To create a private repository 
+To create a private repository
 
 ```
 module "ecr" {
-  source = "./ECR"
+  source = "github.com/dedicatted/terraform-aws-ecr"
   create_ecr_repository_private = true
 }
 ```
@@ -19,7 +19,7 @@ module "ecr" {
 To allow permission for other accounts
 ```
 module "ecr" {
-  source = "./ECR"
+  source = "github.com/dedicatted/terraform-aws-ecr"
   create_ecr_repository_public = true
   create_ecr_repository_policy = true
   allowed_account_ids = ["122222221", "99999999"]
@@ -28,7 +28,7 @@ module "ecr" {
 To add expire policy
 ```
 module "ecr" {
-  source = "./ECR"
+  source = "github.com/dedicatted/terraform-aws-ecr"
   create_ecr_repository_public = true
   ecr_lifecycle_policy_expire = true
   expire_after_days = 3
@@ -38,7 +38,7 @@ module "ecr" {
 To add limitation on images in repository
 ```
 module "ecr" {
-  source = "./ECR"
+  source = "github.com/dedicatted/terraform-aws-ecr"
   create_ecr_repository_public = true
   ecr_lifecycle_policy_images = true
   number_images = 31

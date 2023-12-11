@@ -1,5 +1,5 @@
 resource "aws_ecr_lifecycle_policy" "ecr_expire" {
-  count = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_expire) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_expire) ? 1 : 0
+  count      = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_expire) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_expire) ? 1 : 0
   repository = element(concat(aws_ecrpublic_repository.ecr_public[*].name, aws_ecr_repository.ecr_private[*].name), count.index)
 
   policy = <<EOF
@@ -24,7 +24,7 @@ EOF
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy_images" {
-  count = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_images) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_images) ? 1 : 0
+  count      = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_images) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_images) ? 1 : 0
   repository = element(concat(aws_ecrpublic_repository.ecr_public[*].name, aws_ecr_repository.ecr_private[*].name), count.index)
 
   policy = <<EOF

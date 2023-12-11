@@ -1,6 +1,6 @@
 resource "aws_ecr_lifecycle_policy" "ecr_expire" {
-  count      = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_expire) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_expire) ? 1 : 0
-  repository = element(concat(aws_ecrpublic_repository.ecr_public[*].name, aws_ecr_repository.ecr_private[*].name), count.index)
+  count = var.expire_after_days > 0 ? 1 : 0
+  repository = var.create_ecr_repository_public ? aws_ecrpublic_repository.ecr_public[0].repository_name : aws_ecr_repository.ecr_private[0].name
 
   policy = <<EOF
   {
@@ -24,9 +24,8 @@ EOF
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy_images" {
-  count      = (var.create_ecr_repository_public && var.ecr_lifecycle_policy_images) || (var.create_ecr_repository_private && var.ecr_lifecycle_policy_images) ? 1 : 0
-  repository = element(concat(aws_ecrpublic_repository.ecr_public[*].name, aws_ecr_repository.ecr_private[*].name), count.index)
-
+  count = var.number_images > 0 ? 1 : 0
+  repository = var.create_ecr_repository_public ? aws_ecrpublic_repository.ecr_public[0].repository_name : aws_ecr_repository.ecr_private[0].name
   policy = <<EOF
 {
     "rules": [
@@ -49,7 +48,7 @@ EOF
 }
 
 data "aws_iam_policy_document" "ecr_policy" {
-  count = (var.create_ecr_repository_public && var.create_ecr_repository_policy) || (var.create_ecr_repository_private && var.create_ecr_repository_policy) ? 1 : 0
+  count = (var.create_ecr_repository_public && var.create_ecr_repository_policy) || (var.create_ecr_repository_policy) ? 1 : 0
 
   statement {
     sid    = "new policy"
@@ -76,5 +75,35 @@ data "aws_iam_policy_document" "ecr_policy" {
       "ecr:SetRepositoryPolicy",
       "ecr:DeleteRepositoryPolicy",
     ]
+  }
+}
+
+data "aws_iam_policy_document" "ecr_policy_organization" {
+  count = (var.create_ecr_repository_public && var.create_organization_policy) || (var.create_organization_policy) ? 1 : 0
+
+  statement {
+    sid    = "${var.ecr_repository_name}-ecr-policy"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:CompleteLayerUpload",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:InitiateLayerUpload",
+      "ecr:PutImage",
+      "ecr:SetRepositoryPolicy",
+      "ecr:UploadLayerPart"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:PrincipalOrgID"
+      values   = [var.org_id]
+    }
   }
 }

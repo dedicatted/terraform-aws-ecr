@@ -25,6 +25,15 @@ module "ecr" {
   allowed_account_ids = ["122222221", "99999999"]
 }
 ```
+To create organization access
+```
+module "ecr" {
+  source = "github.com/dedicatted/terraform-aws-ecr"
+  create_ecr_repository_public = true
+  create_organization_policy = true
+  org_id = "11111111"
+}
+```
 To add expire policy
 ```
 module "ecr" {
@@ -85,10 +94,13 @@ No modules.
 | <a name="input_ecr_image_tag_mutability"></a> [ecr\_image\_tag\_mutability](#input\_ecr\_image\_tag\_mutability) | The mutability of image tags in the repository | `string` | `"MUTABLE"` | no |
 | <a name="input_ecr_lifecycle_policy_expire"></a> [ecr\_lifecycle\_policy\_expire](#input\_ecr\_lifecycle\_policy\_expire) | Whether to create the ECR lifecycle policy of expire | `bool` | `false` | no |
 | <a name="input_ecr_lifecycle_policy_images"></a> [ecr\_lifecycle\_policy\_images](#input\_ecr\_lifecycle\_policy\_images) | Whether to create the ECR lifecycle policy of limit images | `bool` | `false` | no |
+| <a name="input_create_organization_policy"></a> [create\_organization\_policy](#input\_ecr\_lifecycle\_policy) | Whether to create the ECR organization policy | `bool` | `false` | no |
 | <a name="input_ecr_repository_name"></a> [ecr\_repository\_name](#input\_ecr\_repository\_name) | The name of the ECR repository | `string` | `"example"` | no |
 | <a name="input_ecr_scan_on_push"></a> [ecr\_scan\_on\_push](#input\_ecr\_scan\_on\_push) | Enable or disable image scanning on push | `bool` | `true` | no |
 | <a name="input_expire_after_days"></a> [expire\_after\_days](#input\_expire\_after\_days) | Number of days after which images will be expired | `number` | `14` | no |
 | <a name="input_number_images"></a> [number\_images](#input\_number\_images) | Number of limit images | `number` | `14` | no |
+| <a name="input_org_id"></a> [org\_id](#input\_org\_id) | AWS organization ID allowed to perform actions | `string` | `123456789012` | no |
+
 
 ## Outputs
 

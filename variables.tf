@@ -1,4 +1,7 @@
 # Default variables
+variable "region" {
+  default = "eu-central-1"
+}
 variable "ecr_repository_name" {
   description = "The name of the ECR repository"
   type        = string
@@ -13,11 +16,6 @@ variable "ecr_image_tag_mutability" {
 
 variable "ecr_scan_on_push" {
   description = "Enable or disable image scanning on push"
-  type        = bool
-  default     = true
-}
-variable "create_ecr_repository_private" {
-  description = "Whether to create the ECR repository"
   type        = bool
   default     = true
 }
@@ -42,10 +40,11 @@ variable "ecr_lifecycle_policy_expire" {
   type        = bool
   default     = false
 }
+
 variable "ecr_lifecycle_policy_images" {
   description = "Whether to create the ECR lifecycle policy of limit images"
   type        = bool
-  default     = false
+  default     = true
 }
 variable "expire_after_days" {
   description = "Number of days after which images will be expired"
@@ -56,4 +55,14 @@ variable "number_images" {
   description = "Number of limit images"
   type        = number
   default     = 14
+}
+variable "org_id" {
+  description = "List of AWS organization IDs allowed to perform actions"
+  default = "123456789012"
+  type        = string
+}
+variable "create_organization_policy" {
+  default = true
+  type = bool
+  description = "Whether to create the ECR organization policy"
 }

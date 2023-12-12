@@ -15,13 +15,13 @@ resource "aws_ecrpublic_repository" "ecr_public" {
 }
 
 resource "aws_ecr_repository_policy" "ecr" {
-  count      = (var.create_ecr_repository_public && var.create_ecr_repository_policy) || (var.create_ecr_repository_policy) ? 1 : 0
+  count = var.allowed_account_ids != null ? 1 : 0
   repository = var.create_ecr_repository_public ? aws_ecrpublic_repository.ecr_public[0].repository_name : aws_ecr_repository.ecr_private[0].name
   policy     = data.aws_iam_policy_document.ecr_policy[count.index].json
 }
 
 resource "aws_ecr_repository_policy" "ecr_organization" {
-  count      = (var.create_ecr_repository_public && var.create_ecr_repository_policy) || (var.create_ecr_repository_policy) ? 1 : 0
+  count = var.org_id != "" ? 1 : 0
   repository = var.create_ecr_repository_public ? aws_ecrpublic_repository.ecr_public[0].repository_name : aws_ecr_repository.ecr_private[0].name
   policy     = data.aws_iam_policy_document.ecr_policy_organization[count.index].json
 }

@@ -1,7 +1,4 @@
 # Default variables
-variable "region" {
-  default = "eu-central-1"
-}
 variable "ecr_repository_name" {
   description = "The name of the ECR repository"
   type        = string
@@ -22,7 +19,7 @@ variable "ecr_scan_on_push" {
 variable "create_ecr_repository_public" {
   description = "Whether to create the ECR repository"
   type        = bool
-  default     = false
+  default     = true
 }
 variable "allowed_account_ids" {
   description = "List of AWS account IDs allowed to perform actions"

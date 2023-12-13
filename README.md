@@ -1,3 +1,12 @@
+# Overview
+This Terraform module, `terraform-aws-ecr`, is designed to simplify the management of AWS Elastic Container Registry (ECR) resources. It provides a declarative way to create and manage ECR repositories, allowing you to efficiently handle container images in your AWS environment.
+
+## Features
+- **Repository Creation**: Easily create and manage ECR repositories to store and organize container images.
+- **Access Control**: Define granular access policies to regulate who can interact with your ECR repositories.
+- **Lifecycle Policies**: Implement lifecycle policies to automate the cleanup of old and unused images.
+
+
 ## Usage
 
 To create private repository
@@ -89,7 +98,6 @@ No modules.
 | <a name="input_expire_after_days"></a> [expire\_after\_days](#input\_expire\_after\_days) | Number of days after which images will be expired | `number` | `0` | no |
 | <a name="input_number_images"></a> [number\_images](#input\_number\_images) | Number of limit images | `number` | `0` | no |
 | <a name="input_org_id"></a> [org\_id](#input\_org\_id) | AWS organization ID allowed to perform actions | `string` | `""` | no |
-| <a name="input_region"></a> [region](#input\_region) | Default variables | `string` | `"eu-central-1"` | no |
 
 ## Outputs
 
